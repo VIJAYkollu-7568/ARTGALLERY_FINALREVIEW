@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Homepage from "./components/homepage.jsx";
+import Homepage from "./components/Homepage.jsx";
 import ArtistDashboard from "./components/ArtistDashboard.jsx";
 import CustomerDashboard from "./components/CustomerDashboard.jsx";
 import AdminDashboard from "./components/AdminDashboard.jsx";
