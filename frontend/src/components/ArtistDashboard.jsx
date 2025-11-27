@@ -3,14 +3,14 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./ArtistDashboard.css";
 
-// ✅ Use the correct backend NodePort URL (browser accesses backend via NodePort)
+// ✅ NodePort for local dev. Change to in-cluster service name if running inside Kubernetes
 const BACKEND_URL = "http://localhost:30025";
 const API_URL = `${BACKEND_URL}/api/art`;
 
 const ArtistDashboard = () => {
   const navigate = useNavigate();
   const [activeSection, setActiveSection] = useState("myArts");
-  
+
   const [user, setUser] = useState({
     name: "John Doe",
     email: "john@example.com",
@@ -63,7 +63,7 @@ const ArtistDashboard = () => {
     formData.append("artName", newArt.artName);
     formData.append("artDescription", newArt.artDescription);
     formData.append("artistName", user.name);
-    formData.append("artCost", newArt.artCost);
+    formData.append("artCost", parseFloat(newArt.artCost)); // ✅ convert to number
     formData.append("artPicture", newArt.artPicture);
 
     try {
@@ -105,7 +105,7 @@ const ArtistDashboard = () => {
           artName: newName,
           artDescription: art.artDescription,
           artistName: art.artistName,
-          artCost: newCost,
+          artCost: parseFloat(newCost), // ✅ convert to number
         },
       });
       fetchArts();
@@ -121,7 +121,7 @@ const ArtistDashboard = () => {
         <div key={art.id} className="art-card" onClick={() => setSelectedArt(art)}>
           {/* ✅ Correct image endpoint */}
           <img
-            src={`${API_URL}/image/${art.id}`}
+            src={`${API_URL}/${art.id}/image`}
             alt={art.artName}
             className="art-image"
           />
@@ -158,7 +158,7 @@ const ArtistDashboard = () => {
       <div className="modal" onClick={() => setSelectedArt(null)}>
         <div className="modal-content" onClick={(e) => e.stopPropagation()}>
           <img
-            src={`${API_URL}/image/${selectedArt.id}`}
+            src={`${API_URL}/${selectedArt.id}/image`}
             alt={selectedArt.artName}
             className="modal-image"
           />
