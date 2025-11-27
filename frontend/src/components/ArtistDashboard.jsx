@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom"; // 👈 import navigation
 import "./ArtistDashboard.css";
 
-const API_URL = "http://localhost:5000/api/art"; // change if needed
+const API_URL = "http://localhost:30025/api/art"; // change if needed
 
 const ArtistDashboard = () => {
   const navigate = useNavigate(); // 👈 initialize navigation
