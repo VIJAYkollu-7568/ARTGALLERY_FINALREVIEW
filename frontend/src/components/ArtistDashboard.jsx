@@ -1,20 +1,24 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom"; // 👈 import navigation
+import { useNavigate } from "react-router-dom";
 import "./ArtistDashboard.css";
 
-const API_URL = "http://localhost:30025/api/art"; // change if needed
+// ✅ Use the correct backend NodePort URL (browser accesses backend via NodePort)
+const BACKEND_URL = "http://localhost:30025";
+const API_URL = `${BACKEND_URL}/api/art`;
 
 const ArtistDashboard = () => {
-  const navigate = useNavigate(); // 👈 initialize navigation
+  const navigate = useNavigate();
   const [activeSection, setActiveSection] = useState("myArts");
+  
   const [user, setUser] = useState({
     name: "John Doe",
     email: "john@example.com",
   });
 
   const [arts, setArts] = useState([]);
-  const [selectedArt, setSelectedArt] = useState(null); // For enlarged view
+  const [selectedArt, setSelectedArt] = useState(null);
+
   const [newArt, setNewArt] = useState({
     artName: "",
     artDescription: "",
@@ -22,6 +26,7 @@ const ArtistDashboard = () => {
     artPicture: null,
   });
 
+  // Load user from localStorage
   useEffect(() => {
     const savedUser = JSON.parse(localStorage.getItem("user"));
     if (!savedUser) {
@@ -38,7 +43,7 @@ const ArtistDashboard = () => {
       const res = await axios.get(`${API_URL}/all`);
       setArts(res.data);
     } catch (err) {
-      console.error(err);
+      console.error("Failed to fetch arts:", err);
     }
   };
 
@@ -66,16 +71,11 @@ const ArtistDashboard = () => {
         headers: { "Content-Type": "multipart/form-data" },
       });
       alert("Art uploaded!");
-      setNewArt({
-        artName: "",
-        artDescription: "",
-        artCost: "",
-        artPicture: null,
-      });
+      setNewArt({ artName: "", artDescription: "", artCost: "", artPicture: null });
       fetchArts();
       setActiveSection("myArts");
     } catch (err) {
-      console.error(err);
+      console.error("Failed to upload art:", err);
       alert("Failed to upload art");
     }
   };
@@ -87,7 +87,7 @@ const ArtistDashboard = () => {
       await axios.delete(`${API_URL}/delete/${id}`);
       fetchArts();
     } catch (err) {
-      console.error(err);
+      console.error("Failed to delete art:", err);
       alert("Failed to delete art");
     }
   };
@@ -98,6 +98,7 @@ const ArtistDashboard = () => {
     if (!newName) return;
     const newCost = prompt("Enter new cost", art.artCost);
     if (!newCost) return;
+
     try {
       await axios.put(`${API_URL}/update/${art.id}`, null, {
         params: {
@@ -109,20 +110,18 @@ const ArtistDashboard = () => {
       });
       fetchArts();
     } catch (err) {
-      console.error(err);
+      console.error("Failed to edit art:", err);
     }
   };
 
+  // Render all arts
   const renderArts = () => (
     <div className="arts-grid">
       {arts.map((art) => (
-        <div
-          key={art.id}
-          className="art-card"
-          onClick={() => setSelectedArt(art)}
-        >
+        <div key={art.id} className="art-card" onClick={() => setSelectedArt(art)}>
+          {/* ✅ Correct image endpoint */}
           <img
-            src={`${API_URL}/${art.id}/image`}
+            src={`${API_URL}/image/${art.id}`}
             alt={art.artName}
             className="art-image"
           />
@@ -152,32 +151,28 @@ const ArtistDashboard = () => {
     </div>
   );
 
+  // Modal for selected art
   const renderSelectedArt = () => {
     if (!selectedArt) return null;
     return (
       <div className="modal" onClick={() => setSelectedArt(null)}>
         <div className="modal-content" onClick={(e) => e.stopPropagation()}>
           <img
-            src={`${API_URL}/${selectedArt.id}/image`}
+            src={`${API_URL}/image/${selectedArt.id}`}
             alt={selectedArt.artName}
             className="modal-image"
           />
           <h2>{selectedArt.artName}</h2>
-          <p>
-            <strong>Description:</strong> {selectedArt.artDescription}
-          </p>
-          <p>
-            <strong>Artist:</strong> {selectedArt.artistName}
-          </p>
-          <p>
-            <strong>Cost:</strong> ${selectedArt.artCost}
-          </p>
+          <p><strong>Description:</strong> {selectedArt.artDescription}</p>
+          <p><strong>Artist:</strong> {selectedArt.artistName}</p>
+          <p><strong>Cost:</strong> ${selectedArt.artCost}</p>
           <button onClick={() => setSelectedArt(null)}>Close</button>
         </div>
       </div>
     );
   };
 
+  // Render section based on sidebar
   const renderSection = () => {
     switch (activeSection) {
       case "myArts":
@@ -187,6 +182,7 @@ const ArtistDashboard = () => {
             {renderSelectedArt()}
           </div>
         );
+
       case "createArt":
         return (
           <div className="upload-form">
@@ -194,47 +190,37 @@ const ArtistDashboard = () => {
               type="text"
               placeholder="Art Name"
               value={newArt.artName}
-              onChange={(e) =>
-                setNewArt({ ...newArt, artName: e.target.value })
-              }
+              onChange={(e) => setNewArt({ ...newArt, artName: e.target.value })}
             />
             <textarea
               placeholder="Description"
               value={newArt.artDescription}
-              onChange={(e) =>
-                setNewArt({ ...newArt, artDescription: e.target.value })
-              }
+              onChange={(e) => setNewArt({ ...newArt, artDescription: e.target.value })}
             />
             <input
               type="number"
               placeholder="Cost"
               value={newArt.artCost}
-              onChange={(e) =>
-                setNewArt({ ...newArt, artCost: e.target.value })
-              }
+              onChange={(e) => setNewArt({ ...newArt, artCost: e.target.value })}
             />
             <input
               type="file"
               accept="image/*"
-              onChange={(e) =>
-                setNewArt({ ...newArt, artPicture: e.target.files[0] })
-              }
+              onChange={(e) => setNewArt({ ...newArt, artPicture: e.target.files[0] })}
             />
             <button onClick={handleAddArt}>Upload Art</button>
           </div>
         );
+
       case "profile":
         return (
           <div>
             <h2>Profile</h2>
-            <p>
-              <strong>Name:</strong> {user.name}
-            </p>
-            <p>
-              <strong>Email:</strong> {user.email}
-            </p>
+            <p><strong>Name:</strong> {user.name}</p>
+            <p><strong>Email:</strong> {user.email}</p>
           </div>
         );
+
       default:
         return <p>Select a section</p>;
     }
@@ -267,7 +253,7 @@ const ArtistDashboard = () => {
           onClick={() => {
             localStorage.removeItem("user");
             alert("Logged out");
-            navigate("/"); // 👈 redirect to Homepage
+            navigate("/");
           }}
         >
           Logout
