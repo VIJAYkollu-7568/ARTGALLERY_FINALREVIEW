@@ -27,7 +27,7 @@ const Homepage = () => {
     }
 
     try {
-      const res = await fetch(`http://localhost:5000/${loginType}/login`, {
+      const res = await fetch(`http://localhost:30025/${loginType}/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -66,7 +66,7 @@ const Homepage = () => {
     }
 
     try {
-      const res = await fetch(`http://localhost:5000/${signupType}/signup`, {
+      const res = await fetch(`http://localhost:30025/${signupType}/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

@@ -26,7 +26,7 @@ const CustomerDashboard = () => {
   useEffect(() => {
     if (activeSection === "posts") {
       axios
-        .get("http://localhost:5000/api/art/all")
+        .get("http://localhost:30025/api/art/all")
         .then((res) => setArts(res.data))
         .catch((err) => console.error("Error fetching arts:", err));
     }
@@ -37,7 +37,7 @@ const CustomerDashboard = () => {
 
   const fetchCartItems = () => {
     axios
-      .get("http://localhost:5000/api/cart/all")
+      .get("http://localhost:30025/api/cart/all")
       .then((res) => setCartItems(res.data))
       .catch((err) => console.error("Error fetching cart items:", err));
   };
@@ -66,7 +66,7 @@ const CustomerDashboard = () => {
       formData.append("artistName", art.artistName);
       formData.append("artCost", art.artCost);
       const imageResponse = await axios.get(
-        `http://localhost:5000/api/art/${art.id}/image`,
+        `http://localhost:30025/api/art/${art.id}/image`,
         { responseType: "blob" }
       );
       formData.append(
@@ -74,7 +74,7 @@ const CustomerDashboard = () => {
         new File([imageResponse.data], "image.jpg")
       );
 
-      await axios.post("http://localhost:5000/api/cart/add", formData, {
+      await axios.post("http://localhost:30025/api/cart/add", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
@@ -88,7 +88,7 @@ const CustomerDashboard = () => {
   // Delete cart item
   const handleDeleteCartItem = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/cart/delete/${id}`);
+      await axios.delete(`http://localhost:30025/api/cart/delete/${id}`);
       fetchCartItems(); // refresh cart
       alert("Item removed from cart.");
     } catch (error) {
@@ -103,7 +103,7 @@ const CustomerDashboard = () => {
       return (
         <div className="artwork-detail">
           <img
-            src={`http://localhost:5000/api/art/${selectedArt.id}/image`}
+            src={`http://localhost:30025/api/art/${selectedArt.id}/image`}
             alt={selectedArt.artName}
             className="detail-img"
           />
@@ -140,7 +140,7 @@ const CustomerDashboard = () => {
                 onClick={() => setSelectedArt(art)}
               >
                 <img
-                  src={`http://localhost:5000/api/art/${art.id}/image`}
+                  src={`http://localhost:30025/api/art/${art.id}/image`}
                   alt={art.artName}
                 />
                 <h3>{art.artName}</h3>
@@ -166,7 +166,7 @@ const CustomerDashboard = () => {
             cartItems.map((item) => (
               <div key={item.id} className="art-card">
                 <img
-                  src={`http://localhost:5000/api/cart/${item.id}/image`}
+                  src={`http://localhost:30025/api/cart/${item.id}/image`}
                   alt={item.artName}
                 />
                 <h3>{item.artName}</h3>

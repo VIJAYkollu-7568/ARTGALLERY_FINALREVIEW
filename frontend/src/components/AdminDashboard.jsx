@@ -25,7 +25,7 @@ const AdminDashboard = () => {
 
   useEffect(() => {
     if (activeSection === "customers" || activeSection === "artists") {
-      fetch("http://localhost:5000/admin/customers")
+      fetch("http://localhost:30025/admin/customers")
         .then((res) => res.json())
         .then((data) => setCustomers(data))
         .catch((err) => console.error("Error fetching customers:", err));
@@ -35,7 +35,7 @@ const AdminDashboard = () => {
   // Delete customer
   const handleDeleteCustomer = (id) => {
     if (window.confirm("Are you sure?")) {
-      fetch(`http://localhost:5000/admin/customers/${id}`, {
+      fetch(`http://localhost:30025/admin/customers/${id}`, {
         method: "DELETE",
       })
         .then((res) => {
@@ -60,7 +60,7 @@ const AdminDashboard = () => {
       alert("Fill all fields");
       return;
     }
-    fetch("http://localhost:5000/customer/signup", {
+    fetch("http://localhost:30025/customer/signup", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newCustomer),
@@ -86,7 +86,7 @@ const AdminDashboard = () => {
       alert("Fill all fields");
       return;
     }
-    fetch("http://localhost:5000/artist/signup", {
+    fetch("http://localhost:30025/artist/signup", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newArtist),
