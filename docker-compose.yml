@@ -10,7 +10,7 @@ services:
     ports:
       - "3308:3306"
     volumes:
-      - mysql-data-artopia:/var/lib/mysql # volume added here
+      - mysql-data-artopia:/var/lib/mysql
 
   backend:
     container_name: springboot-artopia
@@ -33,6 +33,5 @@ services:
     depends_on:
       - backend
 
-# Declare volumes at the bottom
 volumes:
   mysql-data-artopia:

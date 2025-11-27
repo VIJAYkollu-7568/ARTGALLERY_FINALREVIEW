@@ -9,13 +9,11 @@ COPY src ./src
 
 RUN chmod +x mvnw && ./mvnw clean package -DskipTests
 
-RUN cp target/*.jar app.jar
-
-# Stage 2: Run Spring Boot app
-FROM eclipse-temurin:21-jdk
+# Stage 2: Run the app (smaller image)
+FROM eclipse-temurin:21-jre
 WORKDIR /app
 
-COPY --from=builder /app/app.jar app.jar
+COPY --from=builder /app/target/*.jar app.jar
 
-EXPOSE 2000
+EXPOSE 5000
 ENTRYPOINT ["java", "-jar", "app.jar"]
