@@ -1,228 +1,192 @@
-/* ================== Artist Dashboard Layout ================== */
-.artist-dashboard {
+/* ======== MAIN WRAPPER ======== */
+.admin-dashboard {
   display: flex;
-  height: 100vh;
   width: 100vw;
-  position: fixed;
-  top: 0;
-  left: 0;
-  font-family: "Poppins", sans-serif;
+  height: 100vh;
   overflow: hidden;
-  background: #6483b1; /* unified background */
+  font-family: "Poppins", sans-serif;
 }
 
-/* ================== Sidebar ================== */
+/* ======== SIDEBAR ======== */
 .sidebar {
-  width: 25%;
+  width: 18vw;
+  height: 100vh;
   background: #1e293b;
   color: white;
+  padding: 2vh 1vw;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  padding: 20px;
+  justify-content: space-between;
 }
 
+/* Title */
 .sidebar h1 {
-  font-size: 1.5rem;
-  margin-bottom: 20px;
   text-align: center;
+  font-size: 1.6vw;
+  margin-bottom: 3vh;
 }
 
 /* Navigation */
 .nav-links {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 1vh;
 }
 
 .nav-link {
-  padding: 12px;
-  border: none;
-  background: transparent;
-  text-align: left;
-  font-size: 1rem;
+  padding: 1.5vh 1vw;
+  font-size: 1vw;
+  background: #486081;
   color: white;
-  border-radius: 6px;
+  border: none;
+  border-radius: 0.6vw;
+  text-align: left;
   cursor: pointer;
-  transition: background 0.2s ease-in-out;
+  transition: 0.2s;
 }
 
 .nav-link:hover {
-  background: #334155;
+  background: #475569;
 }
 
 .nav-link.active {
-  background: #475569;
-  font-weight: bold;
+  background: #8b6464;
 }
 
-/* Sidebar bottom (profile + logout) */
+/* Bottom profile section */
 .sidebar-bottom {
-  margin-top: auto;
+  padding-top: 3vh;
 }
 
 .profile-card {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 10px;
+  background: #22c55e;
+  padding: 2vh 1vw;
+  border-radius: 0.8vw;
+  margin-bottom: 2vh;
+  text-align: left;
 }
 
-.profile-info .name {
+.profile-card .admin-name {
+  font-size: 1.2vw;
   font-weight: bold;
 }
 
-.profile-info .role {
-  font-size: 0.9rem;
-  color: #cbd5e1;
+.profile-card .email,
+.profile-card .role {
+  font-size: 0.9vw;
+  opacity: 0.9;
+  margin-top: 0.5vh;
 }
 
+/* Logout */
 .logout-btn {
-  width: 100%;
-  padding: 12px;
-  border: none;
+  width: 100vw;
+  padding: 1.5vh;
   background: #ef4444;
-  color: #fff;
-  font-size: 1rem;
-  border-radius: 6px;
+  border: none;
+  border-radius: 0.6vw;
+  font-size: 1vw;
+  color: white;
   cursor: pointer;
-  transition: background 0.2s ease-in-out;
+  transition: 0.3s;
 }
 
 .logout-btn:hover {
-  background: #dc2626;
+  background: #c43030;
 }
 
-/* ================== Main Content ================== */
+/* ======== MAIN CONTENT ======== */
 .dashboard-main {
-  flex: 1;
-  padding: 20px;
+  width: 100vw;
+  height: 100vh;
   overflow-y: auto;
-  background: #94acc2;
+  background: #7a97c2;
+  padding: 4vh 6vw;
+  box-sizing: border-box;
 }
 
-.dashboard-main h2 {
+/* ======== PAGE CONTAINER ======== */
+.page-container {
+  width: 50%;
+  background: #5c81a5;
+  padding: 3vh 3vw;
+  border-radius: 1vw;
+  box-sizing: border-box;
+}
+
+/* Heading */
+.page-container h2 {
   text-align: center;
-  font-size: 24px;
-  margin-bottom: 20px;
-  color: #333;
+  font-size: 2vw;
+  margin-bottom: 3vh;
 }
 
-/* ================== Upload Form (for Artists) ================== */
-.upload-form {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  max-width: 400px;
-  margin: 20px auto;
-  padding: 25px;
-  background: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+/* ======== TABLE ======== */
+.customers-table {
+  width: 10%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 0.8vw;
+  overflow: hidden;
 }
 
-.upload-form input,
-.upload-form textarea {
-  padding: 12px 14px;
-  font-size: 15px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  outline: none;
-  transition: all 0.3s ease;
+.customers-table th,
+.customers-table td {
+  padding: 1.6vh 1vw;
+  font-size: 1vw;
+  border-bottom: 1px solid #d0d7e2;
 }
 
-.upload-form input:focus,
-.upload-form textarea:focus {
-  border-color: #4a90e2;
-  box-shadow: 0 0 5px rgba(74, 144, 226, 0.4);
-}
-
-.upload-form textarea {
-  min-height: 100px;
-  resize: vertical;
-}
-
-.upload-btn {
-  background: #4a90e2;
-  color: #fff;
-  font-size: 16px;
+.customers-table th {
+  background: #dce4ee;
+  font-size: 1.2vw;
   font-weight: 600;
-  padding: 12px;
+}
+
+.customers-table tr:nth-child(even) {
+  background: #eef4fa;
+}
+
+/* Delete Button */
+.delete-btn {
+  background: #ef4444;
+  color: white;
+  padding: 0.8vh 1.5vw;
+  font-size: 1vw;
   border: none;
-  border-radius: 8px;
+  border-radius: 0.5vw;
   cursor: pointer;
-  transition: background 0.3s ease;
+  transition: 0.2s;
 }
 
-.upload-btn:hover {
-  background: #357abd;
+.delete-btn:hover {
+  background: #c43030;
 }
 
-/* ================== Arts Grid & Cards ================== */
-.arts-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 15px;
+/* ======== FORM ======== */
+.page-container input,
+.page-container textarea {
+  width: 100%;
+  padding: 1.2vh 1vw;
+  margin-bottom: 2vh;
+  font-size: 1vw;
+  border-radius: 0.6vw;
+  border: 1px solid #ccc;
+  outline: none;
 }
 
-.art-card {
-  background: #a75d5d;
-  border: 1px solid #d1d5db;
-  border-radius: 10px;
-  padding: 12px;
-  text-align: center;
+.page-container button {
+  padding: 1.4vh;
+  font-size: 1vw;
+  background: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 0.6vw;
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: 0.3s;
 }
 
-.art-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-}
-
-.art-card img {
-  width: 100%;
-  height: 150px;
-  object-fit: cover;
-  border-radius: 8px;
-  margin-bottom: 10px;
-}
-
-.art-card h3 {
-  font-size: 1rem;
-  margin: 4px 0;
-  color: #111827;
-}
-
-.art-card .small-text {
-  font-size: 0.85rem;
-  margin: 2px 0;
-  color: #02070f;
-}
-
-/* ================== Modal ================== */
-.modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.7);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1200;
-}
-
-.modal-content {
-  width: 90%;
-  max-width: 500px;
-  padding: 20px;
-  background: #819ba3;
-  border-radius: 10px;
-  text-align: center;
-}
-
-.modal-image {
-  width: 100%;
-  height: 250px;
-  object-fit: cover;
-  border-radius: 8px;
-  margin-bottom: 12px;
+.page-container button:hover {
+  background: #1e4db7;
 }

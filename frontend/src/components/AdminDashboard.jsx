@@ -6,7 +6,7 @@ const AdminDashboard = () => {
   const [activeSection, setActiveSection] = useState("customers");
   const navigate = useNavigate();
 
-  // ✅ Fetch logged-in admin details (username + email)
+  // Admin info
   const [admin, setAdmin] = useState({
     username: "Admin",
     email: "",
@@ -20,10 +20,9 @@ const AdminDashboard = () => {
     }
   }, []);
 
-  // ✅ State for customers
+  // Fetch customers
   const [customers, setCustomers] = useState([]);
 
-  // ✅ Fetch customers from backend
   useEffect(() => {
     if (activeSection === "customers" || activeSection === "artists") {
       fetch("http://localhost:5000/admin/customers")
@@ -33,25 +32,23 @@ const AdminDashboard = () => {
     }
   }, [activeSection]);
 
-  // ✅ Delete customer
+  // Delete customer
   const handleDeleteCustomer = (id) => {
-    if (window.confirm("Are you sure you want to delete this customer?")) {
+    if (window.confirm("Are you sure?")) {
       fetch(`http://localhost:5000/admin/customers/${id}`, {
         method: "DELETE",
       })
         .then((res) => {
           if (res.ok) {
             setCustomers(customers.filter((c) => c.id !== id));
-            alert("Customer deleted successfully!");
-          } else {
-            alert("Failed to delete customer!");
+            alert("Deleted successfully!");
           }
         })
-        .catch((err) => console.error("Error deleting customer:", err));
+        .catch((err) => console.error("Error deleting:", err));
     }
   };
 
-  // ✅ Add Customer form state
+  // Add customer
   const [newCustomer, setNewCustomer] = useState({
     username: "",
     email: "",
@@ -60,7 +57,7 @@ const AdminDashboard = () => {
 
   const handleAddCustomer = () => {
     if (!newCustomer.username || !newCustomer.email || !newCustomer.password) {
-      alert("Please fill all fields");
+      alert("Fill all fields");
       return;
     }
     fetch("http://localhost:5000/customer/signup", {
@@ -70,15 +67,14 @@ const AdminDashboard = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        alert("Customer added successfully!");
+        alert("Customer added!");
         setCustomers([...customers, data]);
         setNewCustomer({ username: "", email: "", password: "" });
         setActiveSection("customers");
-      })
-      .catch((err) => console.error("Error adding customer:", err));
+      });
   };
 
-  // ✅ Add Artist form state
+  // Add artist
   const [newArtist, setNewArtist] = useState({
     username: "",
     email: "",
@@ -87,7 +83,7 @@ const AdminDashboard = () => {
 
   const handleAddArtist = () => {
     if (!newArtist.username || !newArtist.email || !newArtist.password) {
-      alert("Please fill all fields");
+      alert("Fill all fields");
       return;
     }
     fetch("http://localhost:5000/artist/signup", {
@@ -97,14 +93,13 @@ const AdminDashboard = () => {
     })
       .then((res) => res.json())
       .then(() => {
-        alert("Artist added successfully!");
+        alert("Artist added!");
         setNewArtist({ username: "", email: "", password: "" });
         setActiveSection("artists");
-      })
-      .catch((err) => console.error("Error adding artist:", err));
+      });
   };
 
-  // Dummy state for posts
+  // Posts
   const [posts, setPosts] = useState([]);
   const [newPost, setNewPost] = useState({ title: "", content: "" });
 
@@ -117,7 +112,7 @@ const AdminDashboard = () => {
       setNewPost({ title: "", content: "" });
       setActiveSection("allPosts");
     } else {
-      alert("Please fill out all fields!");
+      alert("Fill fields!");
     }
   };
 
@@ -131,27 +126,21 @@ const AdminDashboard = () => {
   const renderSection = () => {
     switch (activeSection) {
       case "customers":
-      case "artists": // ✅ Show customers table for both
+      case "artists":
         return (
-          <div>
+          <div className="page-container">
             <h2>{activeSection === "customers" ? "Customers" : "Artists"}</h2>
+
             <table className="customers-table">
               <thead>
                 <tr>
-                  <th>
-                    <b>ID</b>
-                  </th>
-                  <th>
-                    <b>Username</b>
-                  </th>
-                  <th>
-                    <b>Email</b>
-                  </th>
-                  <th>
-                    <b>Action</b>
-                  </th>
+                  <th>ID</th>
+                  <th>Username</th>
+                  <th>Email</th>
+                  <th>Action</th>
                 </tr>
               </thead>
+
               <tbody>
                 {customers.map((c) => (
                   <tr key={c.id}>
@@ -182,116 +171,102 @@ const AdminDashboard = () => {
 
       case "addCustomer":
         return (
-          <div>
+          <div className="page-container">
             <h2>Add Customer</h2>
-            <div className="upload-form">
-              <input
-                type="text"
-                placeholder="Username"
-                value={newCustomer.username}
-                onChange={(e) =>
-                  setNewCustomer({ ...newCustomer, username: e.target.value })
-                }
-              />
-              <input
-                type="email"
-                placeholder="Email"
-                value={newCustomer.email}
-                onChange={(e) =>
-                  setNewCustomer({ ...newCustomer, email: e.target.value })
-                }
-              />
-              <input
-                type="password"
-                placeholder="Password"
-                value={newCustomer.password}
-                onChange={(e) =>
-                  setNewCustomer({ ...newCustomer, password: e.target.value })
-                }
-              />
-              <button onClick={handleAddCustomer} className="upload-btn">
-                Add Customer
-              </button>
-            </div>
+            <input
+              type="text"
+              placeholder="Username"
+              value={newCustomer.username}
+              onChange={(e) =>
+                setNewCustomer({ ...newCustomer, username: e.target.value })
+              }
+            />
+            <input
+              type="email"
+              placeholder="Email"
+              value={newCustomer.email}
+              onChange={(e) =>
+                setNewCustomer({ ...newCustomer, email: e.target.value })
+              }
+            />
+            <input
+              type="password"
+              placeholder="Password"
+              value={newCustomer.password}
+              onChange={(e) =>
+                setNewCustomer({ ...newCustomer, password: e.target.value })
+              }
+            />
+            <button onClick={handleAddCustomer}>Add Customer</button>
           </div>
         );
 
       case "addArtist":
         return (
-          <div>
+          <div className="page-container">
             <h2>Add Artist</h2>
-            <div className="upload-form">
-              <input
-                type="text"
-                placeholder="Username"
-                value={newArtist.username}
-                onChange={(e) =>
-                  setNewArtist({ ...newArtist, username: e.target.value })
-                }
-              />
-              <input
-                type="email"
-                placeholder="Email"
-                value={newArtist.email}
-                onChange={(e) =>
-                  setNewArtist({ ...newArtist, email: e.target.value })
-                }
-              />
-              <input
-                type="password"
-                placeholder="Password"
-                value={newArtist.password}
-                onChange={(e) =>
-                  setNewArtist({ ...newArtist, password: e.target.value })
-                }
-              />
-              <button onClick={handleAddArtist} className="upload-btn">
-                Add Artist
-              </button>
-            </div>
+            <input
+              type="text"
+              placeholder="Username"
+              value={newArtist.username}
+              onChange={(e) =>
+                setNewArtist({ ...newArtist, username: e.target.value })
+              }
+            />
+            <input
+              type="email"
+              placeholder="Email"
+              value={newArtist.email}
+              onChange={(e) =>
+                setNewArtist({ ...newArtist, email: e.target.value })
+              }
+            />
+            <input
+              type="password"
+              placeholder="Password"
+              value={newArtist.password}
+              onChange={(e) =>
+                setNewArtist({ ...newArtist, password: e.target.value })
+              }
+            />
+            <button onClick={handleAddArtist}>Add Artist</button>
           </div>
         );
 
       case "allPosts":
         return (
-          <div>
+          <div className="page-container">
             <h2>All Posts</h2>
-            <div className="articles-grid">
-              {posts.map((p) => (
-                <div key={p.id} className="article-card">
-                  <h3>{p.title}</h3>
-                  <p>{p.content}</p>
-                </div>
-              ))}
-              {posts.length === 0 && <p>No posts yet. Upload one!</p>}
-            </div>
+            {posts.length === 0 ? <p>No posts yet</p> : null}
+            {posts.map((p) => (
+              <div key={p.id}>
+                <h3>{p.title}</h3>
+                <p>{p.content}</p>
+              </div>
+            ))}
           </div>
         );
 
       case "upload":
         return (
-          <div>
+          <div className="page-container">
             <h2>Upload Post</h2>
-            <div className="upload-form">
-              <input
-                type="text"
-                placeholder="Post Title"
-                value={newPost.title}
-                onChange={(e) =>
-                  setNewPost({ ...newPost, title: e.target.value })
-                }
-              />
-              <textarea
-                placeholder="Post Content"
-                value={newPost.content}
-                onChange={(e) =>
-                  setNewPost({ ...newPost, content: e.target.value })
-                }
-              ></textarea>
-              <button onClick={handleUpload} className="upload-btn">
-                Upload
-              </button>
-            </div>
+            <input
+              type="text"
+              placeholder="Title"
+              value={newPost.title}
+              onChange={(e) =>
+                setNewPost({ ...newPost, title: e.target.value })
+              }
+            />
+            <textarea
+              placeholder="Content"
+              value={newPost.content}
+              onChange={(e) =>
+                setNewPost({ ...newPost, content: e.target.value })
+              }
+            ></textarea>
+            <button onClick={handleUpload}>Upload</button>
           </div>
         );
 
@@ -305,6 +280,7 @@ const AdminDashboard = () => {
       {/* Sidebar */}
       <aside className="sidebar">
         <h1>Admin Dashboard</h1>
+
         <nav className="nav-links">
           <button
             className={`nav-link ${
@@ -314,6 +290,7 @@ const AdminDashboard = () => {
           >
             Customers
           </button>
+
           <button
             className={`nav-link ${
               activeSection === "artists" ? "active" : ""
@@ -322,6 +299,7 @@ const AdminDashboard = () => {
           >
             Artists
           </button>
+
           <button
             className={`nav-link ${
               activeSection === "addCustomer" ? "active" : ""
@@ -330,6 +308,7 @@ const AdminDashboard = () => {
           >
             ➕ Add Customer
           </button>
+
           <button
             className={`nav-link ${
               activeSection === "addArtist" ? "active" : ""
@@ -338,6 +317,7 @@ const AdminDashboard = () => {
           >
             ➕ Add Artist
           </button>
+
           <button
             className={`nav-link ${
               activeSection === "allPosts" ? "active" : ""
@@ -346,30 +326,32 @@ const AdminDashboard = () => {
           >
             All Posts
           </button>
+
           <button
-            className={`nav-link ${activeSection === "upload" ? "active" : ""}`}
+            className={`nav-link ${
+              activeSection === "upload" ? "active" : ""
+            }`}
             onClick={() => setActiveSection("upload")}
           >
-            {/* Upload Post */}
+            Upload Post
           </button>
         </nav>
 
-        {/* Profile + Logout */}
+        {/* FIXED BOTTOM SECTION */}
         <div className="sidebar-bottom">
           <div className="profile-card">
-            <div className="profile-info">
-              <div className="name">{admin.username}</div>
-              <div className="email">{admin.email}</div>
-              <div className="role">{admin.role}</div>
-            </div>
+            <div className="admin-name">{admin.username}</div>
+            <div className="email">{admin.email}</div>
+            <div className="role">{admin.role}</div>
           </div>
+
           <button className="logout-btn" onClick={handleLogout}>
             Logout
           </button>
         </div>
       </aside>
 
-      {/* Main Content */}
+      {/* Main content */}
       <main className="dashboard-main">{renderSection()}</main>
     </div>
   );

@@ -8,70 +8,101 @@ html, body {
 }
 
 /* General Homepage */
-.homepage {
-  height: 100vh;   /* Full laptop screen height */
-  width: 100vw;    /* Full viewport width */
-  background: linear-gradient(135deg, #1f4037, #5bd60e); /* Modern laptop theme */
+
+/* ------------------ RESET ------------------ */
+/* html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
   font-family: "Poppins", sans-serif;
+  overflow: hidden;
+} */
+
+/* ------------------ HOMEPAGE BASE ------------------ */
+.homepage {
   display: flex;
    top: 0;
   left: 0;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
+  height: 100vh;
+  width: 100vw;
+  background: linear-gradient(130deg, #ff9a9e, #fad0c4, #fbc2eb, #a18cd1, #84fab0, #8fd3f4);
+  background-size: 400% 400%;
+  animation: gradientMove 12s ease infinite;
+  position: relative;
+  overflow: hidden;
+  color: #fff;
   align-items: center;
   position: fixed;
   overflow: hidden;
+
 }
 
-/* Title in the center */
-.title {
-  font-size: 4rem;   /* Larger text for laptop */
-  color: #fff;
+/* Gradient Animation */
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ------------------ HERO TEXT ------------------ */
+.title, .hero-title {
+  font-size: 3.5rem;
   font-weight: 700;
   text-align: center;
   letter-spacing: 2px;
+  text-shadow: 0 3px 8px rgba(0,0,0,0.3);
 }
 
-/* Top-right Login/Signup Button */
-.main-btn {
-  position: absolute;
-  top: 25px;
-  right: 40px;
+.subtitle, .hero-subtitle {
+  font-size: 1.3rem;
+  margin-top: 10px;
+  text-align: center;
+  color: #eef;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+/* ------------------ MAIN BUTTON ------------------ */
+.main-btn, .homepage-buttons button {
   padding: 12px 22px;
-  font-size: 1rem;
-  border: none;
-  border-radius: 8px;
-  background: #0077b6;
-  color: white;
+  font-size: 1.1rem;
+  border-radius: 10px;
   font-weight: 600;
+  border: none;
   cursor: pointer;
   transition: 0.3s ease-in-out;
+  background: #0077b6;
+  color: white;
 }
-.main-btn:hover {
+
+.main-btn:hover, .homepage-buttons button:hover {
   background: #023e8a;
   transform: scale(1.05);
 }
 
-/* Popup Overlay */
+/* ------------------ POPUP STYLING (UNCHANGED) ------------------ */
 .popup-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.55);
+  background: rgba(0,0,0,0.55);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
 }
 
-/* Popup Card */
 .popup-card {
   background: #fff;
-  padding: 25px;      /* reduced spacing */
-  width: 350px;       /* smaller width */
+  padding: 25px;
+  width: 350px;
   border-radius: 12px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25); /* softer shadow */
+  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
   position: relative;
   text-align: center;
   animation: popup 0.3s ease-in-out;
@@ -80,14 +111,12 @@ html, body {
 .popup-card h2 {
   margin-bottom: 15px;
   color: #333;
-  font-size: 1.5rem;  /* slightly smaller heading */
+  font-size: 1.5rem;
 }
 
-/* Input Fields and Dropdown */
-.popup-card input,
-.popup-card select {
+.popup-card input, .popup-card select {
   width: 100%;
-  padding: 12px;       /* smaller padding */
+  padding: 12px;
   margin: 10px 0;
   border: 1px solid #ccc;
   border-radius: 6px;
@@ -95,33 +124,28 @@ html, body {
   box-sizing: border-box;
   background: #fff;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
-  color: #333; /* Make input text color dark for visibility */
+  color: #333;
 }
 
-.popup-card input:focus,
-.popup-card select:focus {
+.popup-card input:focus, .popup-card select:focus {
   outline: none;
   border-color: #0077b6;
-  box-shadow: 0 0 6px rgba(0, 119, 182, 0.4);
+  box-shadow: 0 0 6px rgba(0,119,182,0.4);
 }
 
-/* Placeholder text styling */
-.popup-card input::placeholder,
-.popup-card select::placeholder {
-  color: #999;  /* lighter gray placeholder */
-  opacity: 1;   /* fully visible */
+.popup-card input::placeholder, .popup-card select::placeholder {
+  color: #999;
+  opacity: 1;
 }
 
-/* Dropdown Customization */
 .popup-card select {
   color: #555;
-  appearance: none; /* removes browser default arrow */
+  appearance: none;
   background: #fff url("data:image/svg+xml;utf8,<svg fill='%23666' height='20' viewBox='0 0 24 24' width='20' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>") no-repeat right 12px center;
   background-size: 16px;
   cursor: pointer;
 }
 
-/* Password Wrapper for eye icon */
 .password-wrapper {
   position: relative;
   width: 100%;
@@ -130,7 +154,7 @@ html, body {
 
 .password-input {
   width: 100%;
-  padding: 12px 40px 12px 12px; /* padding-right for icon space */
+  padding: 12px 40px 12px 12px;
   border: 1px solid #ccc;
   border-radius: 6px;
   font-size: 0.95rem;
@@ -143,7 +167,6 @@ html, body {
   top: 50%;
   transform: translateY(-50%);
   cursor: pointer;
-  user-select: none;
   color: #666;
   display: flex;
   align-items: center;
@@ -155,7 +178,6 @@ html, body {
   color: #0077b6;
 }
 
-/* Button Row (Login + Signup side by side) */
 .btn-row {
   display: flex;
   justify-content: space-between;
@@ -170,12 +192,12 @@ html, body {
 .btn-row .signup-btn {
   background: #0077b6;
 }
+
 .btn-row .signup-btn:hover {
   background: #023e8a;
   transform: scale(1.03);
 }
 
-/* Login & Signup Buttons */
 .login-btn {
   width: 100%;
   padding: 12px;
@@ -189,12 +211,12 @@ html, body {
   font-weight: 600;
   transition: 0.3s;
 }
+
 .login-btn:hover {
   background: #009874;
   transform: scale(1.03);
 }
 
-/* Switch between Signup/Login */
 .switch-text {
   margin-top: 15px;
   font-size: 0.95rem;
@@ -209,7 +231,6 @@ html, body {
   font-weight: 500;
 }
 
-/* Close Button */
 .close-btn {
   position: absolute;
   top: 10px;
@@ -222,97 +243,50 @@ html, body {
   color: #666;
 }
 
-/* Animation */
 @keyframes popup {
-  from {
-    transform: scale(0.85);
-    opacity: 0;
-  }
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-/* Reset */
-html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  font-family: "Poppins", sans-serif;
+  from { transform: scale(0.85); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
 }
 
-/* Fullscreen Layout */
-.homepage {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  width: 100vw;
-  background: linear-gradient(135deg, #0bd3ed, #f1f8e9);
-  color: #333;
+/* ------------------ FLOATING ICONS ------------------ */
+.floating-icons span {
+  position: absolute;
+  font-size: 2rem;
+  opacity: 0.85;
+  animation: float 6s infinite ease-in-out;
+}
+
+.floating-icons span:nth-child(1) { top: 10%; left: 5%; animation-delay: 0s; }
+.floating-icons span:nth-child(2) { top: 30%; right: 15%; animation-delay: 1s; }
+.floating-icons span:nth-child(3) { bottom: 20%; left: 20%; animation-delay: 2s; }
+.floating-icons span:nth-child(4) { top: 60%; right: 25%; animation-delay: 3s; }
+.floating-icons span:nth-child(5) { bottom: 10%; left: 50%; animation-delay: 4s; }
+
+@keyframes float {
+  0% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-20px) rotate(10deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
+}
+
+/* ------------------ SCROLLING ARTIST NAMES ------------------ */
+.scrolling-names {
+  position: absolute;
+  bottom: 15px;
+  width: 100%;
+  white-space: nowrap;
   overflow: hidden;
 }
 
-/* Top Bar */
-.top-bar {
-  height: 60px;
-  background: #bebec0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 25px 25px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-
-.brand {
-  font-size: 1.5rem;
-  color: #023e8a;
-  /*color is for giving color og the field*/
-}
-
-/* Main Button */
-.main-btn {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 6px;
-  background: #0077b6;
-  color: #fff;
-  font-weight: 600;
-  cursor: pointer;
-  transition: 0.3s;
-}
-.main-btn:hover {
-  background: #023e8a;
-  transform: scale(1.05);
-}
-
-/* Center Content */
-.center-content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-.title {
-  font-size: 3rem;
-  font-weight: 700;
-  color: #0077b6;
-}
-.subtitle {
-  margin-top: 10px;
+.scrolling-names span {
+  display: inline-block;
+  padding-right: 80px;
   font-size: 1.2rem;
-  color: #555;
+  animation: scrollLeft 15s linear infinite;
+  color: #fff;
+  font-weight: 500;
 }
 
-/* Bottom Bar */
-.bottom-bar {
-  height: 45px;
-  background: #90e0ef;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #023e8a;
-  font-size: 0.9rem;
+@keyframes scrollLeft {
+  from { transform: translateX(100%); }
+  to { transform: translateX(-100%); }
 }
-
-/* Popup Styling remains same as your code */
